@@ -13,6 +13,7 @@ color: white;
 text-align: center;
 padding: 20px;
 }
+/* ကုန်ပစ္စည်း ကတ်ပြားပုံစံ ဒီဇိုင်း */
 .card {
 background-color: #162447;
 padding: 15px;
@@ -21,6 +22,7 @@ margin: 15px auto;
 max-width: 300px;
 box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
 }
+/* ဝယ်ယူမည် ခလုတ်ဒီဇိုင်း */
 .buy-btn {
 background-color: #e43f5a;
 color: white;
@@ -29,30 +31,48 @@ padding: 10px 20px;
 border-radius: 5px;
 cursor: pointer;
 font-weight: bold;
+width: 100%;
+margin-top: 10px;
+}
+.buy-btn:hover {
+background-color: #ff4a6b;
 }
 </style>
 </head>
 <body>
 
-<h1>monkey</h1>
+<h1>🌸 SAKURA Game Shop 🌸</h1>
 <p>Mobile Legends Diamonds Top-Up</p>
 
 <div class="card">
-<h3>💎 86 Diamonds</h3>
-<p>Price: 3,500 MMK</p>
-<button class="buy-btn" onclick="buyDiamonds()">ဝယ်ယူမည်</button>
+    <h3>💎 86 Diamonds</h3>
+    <p>Price: 3,500 MMK</p>
+    <button class="buy-btn" onclick="buyDiamonds('86 Diamonds', '3,500 MMK')">ဝယ်ယူမည်</button>
+</div>
+
+<div class="card">
+    <h3>💎 172 Diamonds</h3>
+    <p>Price: 7,000 MMK</p>
+    <button class="buy-btn" onclick="buyDiamonds('172 Diamonds', '7,000 MMK')">ဝယ်ယူမည်</button>
+</div>
+
+<div class="card">
+    <h3>💎 257 Diamonds</h3>
+    <p>Price: 10,500 MMK</p>
+    <button class="buy-btn" onclick="buyDiamonds('257 Diamonds', '10,500 MMK')">ဝယ်ယူမည်</button>
 </div>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-function buyDiamonds() {
-tg.showPopup({
-title: 'Order တင်ရန်',
-message: 'စိန် 86 လုံး ဝယ်ယူရန် သေချာပါသလား?',
-buttons: [{type: 'ok'}]
-});
+// ဝယ်ယူတဲ့အခါ ဘယ်ပစ္စည်းလဲဆိုတာ ခွဲခြားသိအောင် ပြင်ဆင်ထားတဲ့ စနစ်
+function buyDiamonds(diamondName, price) {
+    tg.showPopup({
+        title: 'Order တင်ရန် အတည်ပြုပါ',
+        message: diamondName + ' ကို ' + price + ' ဖြင့် ဝယ်ယူရန် သေချာပါသလား?',
+        buttons: [{type: 'ok', text: 'ဝယ်ယူမည်'}, {type: 'cancel', text: 'မဝယ်တော့ပါ'}]
+    });
 }
 </script>
 </body>
