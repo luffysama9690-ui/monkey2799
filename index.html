@@ -1,3 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONKEY RECHARGE</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #f0f2f5; /* နောက်ခံအရောင်အလင်း */
+color: #333;
+margin: 0;
+padding: 10px;
+text-align: center;
+}
+h1 {
+font-size: 20px;
+color: #0088cc;
+margin-top: 10px;
+}
+
+/* တစ်တန်းကို ၃ ခုစီ စီပေးမည့် Grid စနစ် (Table ပုံစံ) */
+.grid-container {
+display: grid;
+grid-template-columns: repeat(3, 1fr); /* ဘယ်/ညာ ၃ ခု အညီအမျှခွဲခြင်း */
+gap: 8px; /* ကတ်ပြားတစ်ခုချင်းစီရဲ့ ကြားအကွာအဝေး */
+padding: 5px;
+max-width: 500px;
+margin: 0 auto;
+}
+
+/* ကတ်ပြားတစ်ခုချင်းစီရဲ့ ဒီဇိုင်း */
+.card {
+background-color: white;
+border: 1px solid #ddd;
+border-radius: 8px;
+padding: 10px 5px;
+box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
+cursor: pointer;
+position: relative;
+transition: transform 0.2s;
+}
+.card:active {
+transform: scale(0.95); /* နှိပ်လိုက်ရင် တုန်သွားမည့်ပုံစံ */
+}
+
+/* အပေါ်ထိပ်က "မစောင့်ရပါ" စာသားလေး */
+.badge {
+position: absolute;
+top: 4px;
+right: 4px;
+background-color: #28a745;
+color: white;
+font-size: 8px;
+padding: 2px 4px;
+border-radius: 3px;
+font-weight: bold;
+}
+
+/* စိန်ပုံနေရာ */
+.diamond-img {
+width: 45px;
+height: 45px;
+margin: 5px auto;
+display: block;
+}
+
+.title {
+font-size: 11px;
+font-weight: bold;
+color: #444;
+margin: 4px 0;
+}
+
+/* ဈေးနှုန်းအဟောင်း (စာသားဖြတ်ထားသည်) */
+.old-price {
+font-size: 10px;
+color: #dc3545;
+text-decoration: line-through; /* စာသားကို ဖြတ်ကြောင်းခြစ်ခြင်း */
+margin: 2px 0;
+}
+
+/* ဈေးနှုန်းအသစ် */
+.new-price {
+font-size: 12px;
+font-weight: bold;
+color: #111;
+margin: 2px 0;
+}
+</style>
+</head>
+<body>
+
+<h1>🐒 MONKEY RECHARGE 🐒</h1>
+<p style="font-size: 12px; color: #666; margin-bottom: 15px;">Mobile Legends Diamonds Top-Up</p>
+
+<!-- စိန်ကတ်ပြားများ စီမည့်နေရာ -->
+<div class="grid-container">
+
+    <!-- Card 1 -->
+    <div class="card" onclick="buyDiamonds('Diamond 11', '831 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 11</div>
+        <div class="old-price">900 ကျပ်</div>
+        <div class="new-price">831 ကျပ်</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card" onclick="buyDiamonds('Diamond 22', '1,561 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 22</div>
+        <div class="old-price">1700 ကျပ်</div>
+        <div class="new-price">1561 ကျပ်</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card" onclick="buyDiamonds('Diamond 33', '2,388 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 33</div>
+        <div class="old-price">2600 ကျပ်</div>
+        <div class="new-price">2388 ကျပ်</div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card" onclick="buyDiamonds('Diamond 44', '3,122 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 44</div>
+        <div class="old-price">3400 ကျပ်</div>
+        <div class="new-price">3122 ကျပ်</div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card" onclick="buyDiamonds('Diamond 56', '3,852 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 56</div>
+        <div class="old-price">4200 ကျပ်</div>
+        <div class="new-price">3852 ကျပ်</div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card" onclick="buyDiamonds('Diamond 86', '5,249 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 86</div>
+        <div class="old-price">5600 ကျပ်</div>
+        <div class="new-price">5249 ကျပ်</div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="card" onclick="buyDiamonds('Diamond 112', '7,603 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 112</div>
+        <div class="old-price">8300 ကျပ်</div>
+        <div class="new-price">7603 ကျပ်</div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="card" onclick="buyDiamonds('Diamond 172', '10,403 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 172</div>
+        <div class="old-price">11100 ကျပ်</div>
+        <div class="new-price">10403 ကျပ်</div>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="card" onclick="buyDiamonds('Diamond 257', '15,186 ကျပ်')">
+        <div class="badge">မစောင့်ရပါ</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png" alt="diamond">
+        <div class="title">Diamond 257</div>
+        <div class="old-price">16200 ကျပ်</div>
+        <div class="new-price">15186 ကျပ်</div>
+    </div>
+
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+function buyDiamonds(diamondName, price) {
+    tg.showPopup({
+        title: 'Order တင်ရန်',
+        message: diamondName + ' ကို ' + price + ' ဖြင့် ဝယ်ယူရန် သေချာပါသလား?',
+        buttons: [{type: 'ok', text: 'ဝယ်ယူမည်'}, {type: 'cancel', text: 'ပယ်ဖျက်မည်'}]
+    });
+}
+</script>
+</body>
+</html>
 <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
