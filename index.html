@@ -6,13 +6,7 @@
   <title>MONKEY RECHARGE</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    :root {
-      --bg-color: #0d131a;
-      --card-bg: #141f2e;
-      --text-main: #ffffff;
-      --text-muted: #728a9c;
-      --primary: #2fa3e6;
-    }
+    :root { --bg-color: #0d131a; --card-bg: #141f2e; --text-main: #ffffff; --primary: #2fa3e6; }
     body { font-family: sans-serif; background-color: var(--bg-color); color: var(--text-main); padding: 16px; }
     .header { text-align: center; margin-bottom: 20px; }
     .header h1 { color: var(--primary); font-size: 20px; margin: 0; }
@@ -35,11 +29,7 @@
   </style>
 </head>
 <body>
-
-  <div class="header">
-    <h1>🐒 MONKEY RECHARGE</h1>
-  </div>
-
+  <div class="header"><h1>🐒 MONKEY RECHARGE</h1></div>
   <div id="step1" class="step-screen">
     <div class="section-title">Game ID & Zone ID</div>
     <div class="input-group">
@@ -54,7 +44,6 @@
     </div>
     <button class="btn-submit" onclick="goToStep(2)">Next Step</button>
   </div>
-
   <div id="step2" class="step-screen">
     <div class="section-title">Select Payment</div>
     <div class="payment-grid">
@@ -62,13 +51,12 @@
       <div class="pay-card" id="waveOpt" onclick="selectPayment('WavePay', '09xxxxxxxxx')">WavePay</div>
     </div>
     <div id="accountBox" class="account-details">
-      <b id="payTitle">Payment Account</b><br>
+      <b>Payment Account</b><br>
       Number: <span id="payNumber" style="color:#10b981; font-weight:bold;">-</span>
     </div>
     <button class="btn-submit" onclick="goToStep(3)">Paid (Next)</button>
     <button class="btn-submit" onclick="goToStep(1)" style="background-color: #334155;">Back</button>
   </div>
-
   <div id="step3" class="step-screen">
     <div class="section-title">Upload Screenshot</div>
     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
@@ -79,7 +67,6 @@
     <button class="btn-submit" id="submitBtn" onclick="placeOrder()">Submit Order</button>
     <button class="btn-submit" onclick="goToStep(2)" style="background-color: #334155;">Back</button>
   </div>
-
   <div id="resultScreen">
     <h2 style="color:#10b981;">✓ အော်ဒါတင်ခြင်း အောင်မြင်သည်</h2>
     <p>အော်ဒါနှင့် ပြေစာကို စစ်ဆေးပြီး ၅ မိနစ်အတွင်း စိန်ထည့်သွင်းပေးပါမည်။</p>
@@ -87,7 +74,6 @@
 
   <script>
     let selectedProduct = "", selectedPrice = "", selectedMethod = "", base64Image = "";
-
     function selectItem(p, pr, el) {
       document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected'); selectedProduct = p; selectedPrice = pr;
@@ -106,7 +92,6 @@
       document.querySelectorAll('.step-screen').forEach(scr => scr.style.display = 'none');
       document.getElementById('step' + s).style.display = 'block';
     }
-
     function previewFile() {
       const file = document.getElementById('fileInput').files[0];
       const reader = new FileReader();
@@ -118,45 +103,30 @@
       }
       if (file) reader.readAsDataURL(file);
     }
-
     async function placeOrder() {
       if(!base64Image) return alert("Please upload screenshot!");
       const btn = document.getElementById('submitBtn');
       btn.innerText = "Processing..."; btn.disabled = true;
-
-      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်
-      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbwS4Tvqk38Zkwvy9yYvcBw-76Od0XpdmFM5bdVFaHPvaXQQnEEjmRM7n-VDsrN68uG4/exec";
-
+      const url = "https://script.google.com/macros/s/AKfycbw3oGDi41GVQX1d6VGGXRQLOxxYEEdAjHVG8baqV5CbU5Jvwu88oaATTiU69Zkqckup/exec";
       try {
-        const orderData = {
-          gameId: document.getElementById('gameId').value,
-          zoneId: document.getElementById('zoneId').value,
-          product: selectedProduct,
-          price: selectedPrice + " K",
-          paymentMethod: selectedMethod,
-          screenshot: base64Image
-        };
-
-        // URL-encoded text အဖြစ် ပြောင်းလဲပေးပို့ခြင်း (CORS block မဖြစ်စေရန်)
-        let response = await fetch(googleSheetUrl, {
+        await fetch(url, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: JSON.stringify(orderData)
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            gameId: document.getElementById('gameId').value,
+            zoneId: document.getElementById('zoneId').value,
+            product: selectedProduct,
+            price: selectedPrice + " K",
+            paymentMethod: selectedMethod,
+            screenshot: base64Image
+          })
         });
-
-        let result = await response.json();
-
-        if (result.status === "success") {
-          document.getElementById('step3').style.display = 'none';
-          document.getElementById('resultScreen').style.display = 'block';
-        } else {
-          alert("Server Error: " + result.message);
-          btn.innerText = "Submit Order"; btn.disabled = false;
-        }
-
-      } catch (error) {
-        alert("Something went wrong, try again!");
-        btn.innerText = "Submit Order"; btn.disabled = false;
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
+      } catch (e) {
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
       }
     }
   </script>
