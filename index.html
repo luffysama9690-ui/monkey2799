@@ -114,7 +114,7 @@
         document.getElementById('imagePreview').src = reader.result;
         document.getElementById('imagePreview').style.display = 'block';
         document.getElementById('uploadText').innerText = "✓ Image Selected";
-        base64Image = reader.result.split(',')[1];
+        base64Image = reader.result; 
       }
       if (file) reader.readAsDataURL(file);
     }
@@ -124,38 +124,17 @@
       const btn = document.getElementById('submitBtn');
       btn.innerText = "Processing..."; btn.disabled = true;
 
-      // 🔐 GitHub Secret Scanning ကျော်ရန် ကီးကို နှစ်ခြမ်းခွဲစနစ် သုံးပေးထားပါတယ်
-      const part1 = "AQ.Ab8RN6JCKUg7a74yppuzxgYGVui"; 
-      const part2 = "83Klec7paRge0E13ejYRg1w";
-      const imgbbApiKey = part1 + part2;
-      
-      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်ကို ဒီအောက်က မျက်တောင်ကွင်းထဲမှာ ထည့်ပါ ဘရို
-      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbz8Tw4rQng2ku9YE-jTfZeTD3Tyl5BytdbYsGsCIuRSpCX736JPhL8VgP9_Ydf5X4s/exec";
+      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်ကို ဒီအောက်က မျက်တောင်ကွင်းထဲမှာ သေချာလဲထည့်ပါ ဘရို
+      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbxDWpmQTvOxn889n1AM2MJ6JFiRC6jAJJaCdF-xmI0NCruIPS75x_0-kv84sRt0EAuI/exec";
 
       try {
-        let formData = new FormData();
-        formData.append("image", base64Image);
-        
-        let imgResponse = await fetch("https://api.imgbb.com/1/upload?key=" + imgbbApiKey, {
-          method: "POST",
-          body: formData
-        });
-        
-        let imgResult = await imgResponse.json();
-        let uploadedImageUrl = "No Image Link";
-        
-        if(imgResult && imgResult.success) {
-          uploadedImageUrl = imgResult.data.url;
-        }
-
-        // Google Sheet ဆီ ပို့ဆောင်ခြင်း
         const orderData = {
           gameId: document.getElementById('gameId').value,
           zoneId: document.getElementById('zoneId').value,
           product: selectedProduct,
           price: selectedPrice + " K",
           paymentMethod: selectedMethod,
-          screenshotUrl: uploadedImageUrl
+          screenshot: base64Image // ပုံကို Base64 Text အဖြစ် Google Sheet ဆီ တိုက်ရိုက်ပို့ခြင်း
         };
 
         await fetch(googleSheetUrl, {
