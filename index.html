@@ -124,8 +124,8 @@
       const btn = document.getElementById('submitBtn');
       btn.innerText = "Processing..."; btn.disabled = true;
 
-      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်ကို ဒီအောက်က မျက်တောင်ကွင်းထဲမှာ သေချာလဲထည့်ပါ ဘရို
-      const googleSheetUrl ="https://script.google.com/macros/s/AKfycbzwwOCRfQEl4UPZozSJXcZ-70-jUZlV7TKYCN7rPOLQzr7G11SHPeqrD72AR_ZokD0h/exec";
+      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်
+      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbzwwOCRfQEl4UPZozSJXcZ-70-jUZlV7TKYCN7rPOLQzr7G11SHPeqrD72AR_ZokD0h/exec";
 
       try {
         const orderData = {
@@ -134,18 +134,25 @@
           product: selectedProduct,
           price: selectedPrice + " K",
           paymentMethod: selectedMethod,
-          screenshot: base64Image // ပုံကို Base64 Text အဖြစ် Google Sheet ဆီ တိုက်ရိုက်ပို့ခြင်း
+          screenshot: base64Image
         };
 
-        await fetch(googleSheetUrl, {
+        // URL-encoded text အဖြစ် ပြောင်းလဲပေးပို့ခြင်း (CORS block မဖြစ်စေရန်)
+        let response = await fetch(googleSheetUrl, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: JSON.stringify(orderData)
         });
 
-        document.getElementById('step3').style.display = 'none';
-        document.getElementById('resultScreen').style.display = 'block';
+        let result = await response.json();
+
+        if (result.status === "success") {
+          document.getElementById('step3').style.display = 'none';
+          document.getElementById('resultScreen').style.display = 'block';
+        } else {
+          alert("Server Error: " + result.message);
+          btn.innerText = "Submit Order"; btn.disabled = false;
+        }
 
       } catch (error) {
         alert("Something went wrong, try again!");
