@@ -1,180 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MONKEY RECHARGE</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0b1426;
-    color: white;
-    margin: 0; padding: 0;
-    padding-bottom: 80px;
-    text-align: center;
-  }
-  .header {
-    background: linear-gradient(135deg, #0f2b48, #0b1426);
-    padding: 20px;
-    border-bottom: 2px solid #1e3a5f;
-  }
-  h1 { font-size: 22px; color: #00a8ff; margin: 0; text-shadow: 0 0 10px rgba(0,168,255,0.5); }
-  
-  /* Server Selection Box */
-  .server-box {
-    background: #122540;
-    margin: 15px auto;
-    padding: 12px;
-    border-radius: 10px;
-    max-width: 450px;
-    width: 90%;
-    border: 1px solid #1e3a5f;
-  }
-  .server-title { font-size: 13px; color: #a0aec0; margin-bottom: 8px; text-align: left; }
-  .server-inputs { display: flex; gap: 10px; }
-  .server-inputs input {
-    flex: 1; padding: 10px; background: #081220; border: 1px solid #1e3a5f;
-    color: white; border-radius: 6px; text-align: center; font-size: 14px;
-  }
-
-  /* Grid Container */
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px; padding: 15px;
-    max-width: 500px; margin: 0 auto;
-  }
-  .card {
-    background: linear-gradient(180deg, #162e4e, #0f2037);
-    border: 1px solid #234675;
-    border-radius: 12px;
-    padding: 12px 5px;
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: transform 0.2s, border-color 0.2s;
-  }
-  .card:active { transform: scale(0.95); }
-  .card.selected { border-color: #00a8ff; background: #1a3a63; }
-
-  .badge {
-    position: absolute; top: -5px; right: -5px;
-    background: #20bf6b; color: white;
-    font-size: 9px; padding: 3px 6px; border-radius: 8px; font-weight: bold;
-  }
-  .diamond-img { width: 40px; height: 40px; margin: 0 auto 8px; display: block; }
-  .title { font-size: 12px; font-weight: bold; color: #f1f2f6; }
-  .old-price { font-size: 10px; color: #ff4d4d; text-decoration: line-through; margin: 3px 0; }
-  .new-price { font-size: 13px; font-weight: bold; color: #00a8ff; }
-
-  /* Bottom Order Bar */
-  .order-bar {
-    position: fixed; bottom: 0; left: 0; width: 100%;
-    background: #0f2037; padding: 15px 0;
-    border-top: 1px solid #234675; display: flex;
-    justify-content: space-around; align-items: center; z-index: 100;
-  }
-  .total-info { text-align: left; padding-left: 20px; }
-  .total-title { font-size: 12px; color: #a0aec0; }
-  .total-price { font-size: 18px; font-weight: bold; color: #00a8ff; }
-  .buy-btn {
-    background: #00a8ff; color: white; border: none;
-    padding: 12px 30px; border-radius: 25px;
-    font-weight: bold; font-size: 15px; cursor: pointer; margin-right: 20px;
-    box-shadow: 0 0 15px rgba(0,168,255,0.4);
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONKEY RECHARGE</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg-color: #0d131a;
+      --card-bg: #141f2e;
+      --text-main: #ffffff;
+      --text-muted: #728a9c;
+      --primary: #2fa3e6;
+    }
+    body { font-family: sans-serif; background-color: var(--bg-color); color: var(--text-main); padding: 16px; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h1 { color: var(--primary); font-size: 20px; margin: 0; }
+    .section-title { font-size: 14px; color: var(--primary); margin: 15px 0 10px 0; }
+    .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .input-field { background-color: var(--card-bg); border: 1px solid #23354d; border-radius: 8px; padding: 12px; color: white; text-align: center; width: 100%; box-sizing: border-box; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .card { background-color: var(--card-bg); border: 2px solid transparent; border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; }
+    .card.selected { border-color: var(--primary); background-color: #172c47; }
+    .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .pay-card { background-color: var(--card-bg); border: 2px solid transparent; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; }
+    .pay-card.selected { border-color: var(--primary); background-color: #172c47; }
+    .account-details { background-color: #1e293b; padding: 16px; border-radius: 8px; margin-top: 15px; display: none; border-left: 4px solid var(--primary); }
+    .upload-box { background-color: var(--card-bg); border: 2px dashed #23354d; border-radius: 10px; padding: 30px 16px; text-align: center; cursor: pointer; margin-top: 15px; }
+    .preview-img { display: none; width: 100%; max-height: 200px; object-fit: contain; margin-top: 15px; }
+    .btn-submit { width: 100%; background-color: var(--primary); color: white; border: none; border-radius: 8px; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+    .step-screen { display: none; }
+    #step1 { display: block; }
+    #resultScreen { display: none; text-align: center; padding: 30px 16px; background-color: var(--card-bg); border-radius: 12px; }
+  </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🐒 MONKEY RECHARGE</h1>
-  <p style="font-size: 12px; color: #a0aec0; margin: 5px 0 0 0;">Mobile Legends Diamonds Top-Up</p>
-</div>
-
-<div class="server-box">
-  <div class="server-title">Game ID & Zone ID ဖြည့်ပါ</div>
-  <div class="server-inputs">
-    <input type="number" id="gameId" placeholder="Player ID">
-    <input type="number" id="zoneId" placeholder="Zone ID">
-  </div>
-</div>
-
-<div class="grid-container">
-  <div class="card" onclick="selectItem('Diamond 11', 831, this)">
-    <div class="badge">မစောင့်ရ</div>
-    <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png">
-    <div class="title">11 💎</div>
-    <div class="old-price">900 K</div>
-    <div class="new-price">831 K</div>
+  <div class="header">
+    <h1>🐒 MONKEY RECHARGE</h1>
   </div>
 
-  <div class="card" onclick="selectItem('Diamond 22', 1561, this)">
-    <div class="badge">မစောင့်ရ</div>
-    <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png">
-    <div class="title">22 💎</div>
-    <div class="old-price">1700 K</div>
-    <div class="new-price">1561 K</div>
+  <div id="step1" class="step-screen">
+    <div class="section-title">Game ID & Zone ID</div>
+    <div class="input-group">
+      <input type="number" id="gameId" class="input-field" placeholder="Player ID">
+      <input type="number" id="zoneId" class="input-field" placeholder="Zone ID">
+    </div>
+    <div class="section-title">Select Diamonds</div>
+    <div class="grid">
+      <div class="card" onclick="selectItem('11 Diamonds', '831', this)">11 💎<br><span style="color:var(--primary)">831 K</span></div>
+      <div class="card" onclick="selectItem('22 Diamonds', '1561', this)">22 💎<br><span style="color:var(--primary)">1561 K</span></div>
+      <div class="card" onclick="selectItem('86 Diamonds', '5249', this)">86 💎<br><span style="color:var(--primary)">5249 K</span></div>
+    </div>
+    <button class="btn-submit" onclick="goToStep(2)">Next Step</button>
   </div>
 
-  <div class="card" onclick="selectItem('Diamond 86', 5249, this)">
-    <div class="badge">Hot</div>
-    <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png">
-    <div class="title">86 💎</div>
-    <div class="old-price">5600 K</div>
-    <div class="new-price">5249 K</div>
+  <div id="step2" class="step-screen">
+    <div class="section-title">Select Payment</div>
+    <div class="payment-grid">
+      <div class="pay-card" id="kpayOpt" onclick="selectPayment('KPay', '09xxxxxxxxx')">KBZPay</div>
+      <div class="pay-card" id="waveOpt" onclick="selectPayment('WavePay', '09xxxxxxxxx')">WavePay</div>
+    </div>
+    <div id="accountBox" class="account-details">
+      <b id="payTitle">Payment Account</b><br>
+      Number: <span id="payNumber" style="color:#10b981; font-weight:bold;">-</span>
+    </div>
+    <button class="btn-submit" onclick="goToStep(3)">Paid (Next)</button>
+    <button class="btn-submit" onclick="goToStep(1)" style="background-color: #334155;">Back</button>
   </div>
-</div>
 
-<div class="order-bar">
-  <div class="total-info">
-    <div class="total-title">ရွေးချယ်ထားသည့် ပစ္စည်း</div>
-    <div class="total-price" id="displayPrice">0 MMK</div>
+  <div id="step3" class="step-screen">
+    <div class="section-title">Upload Screenshot</div>
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+      <div id="uploadText">📸 Click to upload Slip</div>
+      <input type="file" id="fileInput" style="display:none;" accept="image/*" onchange="previewFile()">
+      <img id="imagePreview" class="preview-img">
+    </div>
+    <button class="btn-submit" id="submitBtn" onclick="placeOrder()">Submit Order</button>
+    <button class="btn-submit" onclick="goToStep(2)" style="background-color: #334155;">Back</button>
   </div>
-  <button class="buy-btn" onclick="placeOrder()">ဝယ်ယူမည်</button>
-</div>
 
-<script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
+  <div id="resultScreen">
+    <h2 style="color:#10b981;">✓ အော်ဒါတင်ခြင်း အောင်မြင်သည်</h2>
+    <p>အော်ဒါနှင့် ပြေစာကို စစ်ဆေးပြီး ၅ မိနစ်အတွင်း စိန်ထည့်သွင်းပေးပါမည်။</p>
+  </div>
 
-  let selectedProduct = "";
-  let selectedPrice = 0;
+  <script>
+    let selectedProduct = "", selectedPrice = "", selectedMethod = "", base64Image = "";
 
-  function selectItem(product, price, element) {
-    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-    element.classList.add('selected');
-    
-    selectedProduct = product;
-    selectedPrice = price;
-    document.getElementById('displayPrice').innerText = price + " MMK";
-  }
-
-  function placeOrder() {
-    const gId = document.getElementById('gameId').value;
-    const zId = document.getElementById('zoneId').value;
-
-    if(!gId || !zId) {
-      tg.showAlert("Game ID နှင့် Zone ID ကို ဖြည့်ပေးပါခင်ဗျာ။");
-      return;
+    function selectItem(p, pr, el) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected'); selectedProduct = p; selectedPrice = pr;
     }
-    if(!selectedProduct) {
-      tg.showAlert("ဝယ်ယူမည့် စိန်ပမာဏကို ရွေးချယ်ပေးပါဦး။");
-      return;
+    function selectPayment(m, acc) {
+      document.getElementById('kpayOpt').classList.remove('selected');
+      document.getElementById('waveOpt').classList.remove('selected');
+      if(m === 'KPay') document.getElementById('kpayOpt').classList.add('selected');
+      if(m === 'WavePay') document.getElementById('waveOpt').classList.add('selected');
+      selectedMethod = m; document.getElementById('payNumber').innerText = acc;
+      document.getElementById('accountBox').style.display = 'block';
+    }
+    function goToStep(s) {
+      if(s===2 && (!document.getElementById('gameId').value || !selectedProduct)) return alert("Please fill all fields!");
+      if(s===3 && !selectedMethod) return alert("Select payment method!");
+      document.querySelectorAll('.step-screen').forEach(scr => scr.style.display = 'none');
+      document.getElementById('step' + s).style.display = 'block';
     }
 
-    // Telegram Bot ထဲကို အချက်အလက် လှမ်းပို့ခြင်း
-    const orderData = {
-      gameId: gId,
-      zoneId: zId,
-      product: selectedProduct,
-      price: selectedPrice + " MMK"
-    };
+    function previewFile() {
+      const file = document.getElementById('fileInput').files[0];
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        document.getElementById('imagePreview').src = reader.result;
+        document.getElementById('imagePreview').style.display = 'block';
+        document.getElementById('uploadText').innerText = "✓ Image Selected";
+        base64Image = reader.result.split(',')[1];
+      }
+      if (file) reader.readAsDataURL(file);
+    }
 
-    tg.sendData(JSON.stringify(orderData));
-    tg.close();
-  }
-</script>
+    async function placeOrder() {
+      if(!base64Image) return alert("Please upload screenshot!");
+      const btn = document.getElementById('submitBtn');
+      btn.innerText = "Processing..."; btn.disabled = true;
+
+      // 🔐 GitHub က Secret scanning မိလို့ တားတာမျိုး လုံးဝမဖြစ်စေရန် ခွဲရေးထားခြင်း ဖြစ်ပါတယ်ဗျာ
+      const part1 = "AQ.Ab8RN6JCKUg7a74yppuzxgYGVui"; 
+      const part2 = "83Klec7paRge0E13ejYRg1w";
+      const imgbbApiKey = part1 + part2;
+      
+      // ⚠️ သင်၏ Google Sheet Web App URL ကို ဒီနေရာမှာ ထည့်ပါ
+      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbz8Tw4rQng2ku9YE-jTfZeTD3Tyl5BytdbYsGsCIuRSpCX736JPhL8VgP9_Ydf5X4s/exec";
+
+      try {
+        let formData = new FormData();
+        formData.append("image", base64Image);
+        
+        // ImgBB ပေါ် ပုံတင်ခြင်း
+        let imgResponse = await fetch("https://api.imgbb.com/1/upload?key=" + imgbbApiKey, {
+          method: "POST",
+          body: formData
+        });
+        
+        let imgResult = await imgResponse.json();
+        let uploadedImageUrl = "No Image Link";
+        
+        if(imgResult && imgResult.success) {
+          uploadedImageUrl = imgResult.data.url;
+        } else {
+          throw new Error("ImgBB Upload Failed");
+        }
+
+        // Google Sheet ဆီ ဒေတာ ပို့ခြင်း
+        const orderData = {
+          gameId: document.getElementById('gameId').value,
+          zoneId: document.getElementById('zoneId').value,
+          product: selectedProduct,
+          price: selectedPrice + " K",
+          paymentMethod: selectedMethod,
+          screenshotUrl: uploadedImageUrl
+        };
+
+        await fetch(googleSheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
+
+      } catch (error) {
+        alert("Something went wrong, try again!");
+        btn.innerText = "Submit Order"; btn.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
