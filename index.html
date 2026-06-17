@@ -198,6 +198,383 @@
     }
 
     #step1 {
+      display: block; /* ပထမဆုံး စာမျက်နှာကိုပဲ ဖွင့်ထားမည် */
+    }
+
+    #resultScreen {
+      display: none;
+      text-align: center;
+      padding: 30px 16px;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🐒 MONKEY RECHARGE</h1>
+    <p>Mobile Legends Diamonds Top-Up</p>
+  </div>
+
+  <div id="step1" class="step-screen">
+    <div class="section-title">Game ID & Zone ID ဖြည့်ပါ</div>
+    <div class="input-group">
+      <input type="number" id="gameId" class="input-field" placeholder="Player ID">
+      <input type="number" id="zoneId" class="input-field" placeholder="Zone ID">
+    </div>
+
+    <div class="section-title">စိန်ပမာဏရွေးချယ်ပါ</div>
+    <div class="grid">
+      <div class="card" onclick="selectItem('11 Diamonds', '831', this)">
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png">
+        <div class="title">11 💎</div>
+        <div class="price">831 K</div>
+      </div>
+      <div class="card" onclick="selectItem('22 Diamonds', '1561', this)">
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png">
+        <div class="title">22 💎</div>
+        <div class="price">1561 K</div>
+      </div>
+      <div class="card" onclick="selectItem('86 Diamonds', '5249', this)">
+        <div class="badge">Hot</div>
+        <img class="diamond-img" src="https://img.icons8.com/external-flat-icons-inspirational-three-barba-silhouette/64/000000/external-diamond-casino-flat-icons-inspirational-three-barba-silhouette.png">
+        <div class="title">86 💎</div>
+        <div class="price">5249 K</div>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="goToStep(2)">နောက်တစ်ဆင့် သို့</button>
+  </div>
+
+
+  <div id="step2" class="step-screen">
+    <div class="section-title">ငွေလွှဲမည့် နည်းလမ်းကို ရွေးချယ်ပါ</div>
+    <div class="payment-grid">
+      <div class="pay-card" id="kpayOpt" onclick="selectPayment('KPay', '09xxxxxxxxx (U Monkey)')">
+        <span style="color:#007bfe; font-size: 24px;">K</span> KBZPay
+      </div>
+      <div class="pay-card" id="waveOpt" onclick="selectPayment('WavePay', '09xxxxxxxxx (U Monkey)')">
+        <span style="color:#ffc107; font-size: 24px;">W</span> WavePay
+      </div>
+    </div>
+
+    <div id="accountBox" class="account-details">
+      <b style="color:var(--primary);" id="payTitle">ငွေလွှဲရမည့် အကောင့်</b><br>
+      နံပါတ် - <span id="payNumber" style="font-size: 16px; font-weight: bold; color: #10b981;">-</span><br>
+      <span style="font-size:12px; color:var(--text-muted);">*ကျေးဇူးပြု၍ ငွေလွှဲပြီးမှ နောက်တစ်ဆင့်သို့ သွားပါရန်။</span>
+    </div>
+
+    <button class="btn-submit" onclick="goToStep(3)" style="margin-top: 30px;">ငွေလွှဲပြီးပါပြီ (နောက်တစ်ဆင့်)</button>
+    <button class="btn-submit" onclick="goToStep(1)" style="background-color: #334155; margin-top: 10px;">နောက်ပြန်ဆုတ်ရန်</button>
+  </div>
+
+
+  <div id="step3" class="step-screen">
+    <div class="section-title">ငွေလွှဲပြေစာ Screenshot တင်ပါ</div>
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+      <div id="uploadText" style="font-size: 14px; color: var(--text-muted);">📸 နှိပ်ပြီး ငွေလွှဲပြေစာ ဓာတ်ပုံရွေးချယ်ပါ</div>
+      <input type="file" id="fileInput" class="file-input" accept="image/*" onchange="previewFile()">
+      <img id="imagePreview" class="preview-img" src="">
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="placeOrder()">အော်ဒါ အပြီးသတ်တင်မည်</button>
+    <button class="btn-submit" onclick="goToStep(2)" style="background-color: #334155; margin-top: 10px;">နောက်ပြန်ဆုတ်ရန်</button>
+  </div>
+
+
+  <div id="resultScreen">
+    <div style="font-size: 44px; color: #10b981; margin-bottom: 10px;">✓</div>
+    <h2 style="margin:0 0 8px 0; color:#10b981; font-size: 20px;">အော်ဒါတင်ခြင်း အောင်မြင်သည်</h2>
+    <p style="margin:0; font-size:13px; color:var(--text-muted);">လူကြီးမင်း တင်ပေးလိုက်သော ငွေလွှဲပြေစာနှင့် အော်ဒါကို ဆိုင်မှ စစ်ဆေးပြီး ၅ မိနစ်အတွင်း စိန်ထည့်သွင်းပေးပါမည်။ ကျေးဇူးတင်ပါတယ်ဗျာ။</p>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand(); 
+
+    let selectedProduct = "";
+    let selectedPrice = "";
+    let selectedMethod = "";
+    let base64Image = "";
+
+    function selectItem(product, price, element) {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => card.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedProduct = product;
+      selectedPrice = price;
+    }
+
+    function selectPayment(method, accInfo) {
+      document.getElementById('kpayOpt').classList.remove('selected');
+      document.getElementById('waveOpt').classList.remove('selected');
+      
+      if(method === 'KPay') document.getElementById('kpayOpt').classList.add('selected');
+      if(method === 'WavePay') document.getElementById('waveOpt').classList.add('selected');
+
+      selectedMethod = method;
+      document.getElementById('payTitle').innerText = `💰 ${method} ဖြင့် ငွေလွှဲရန်`;
+      document.getElementById('payNumber').innerText = accInfo;
+      document.getElementById('accountBox').style.display = 'block';
+    }
+
+    // စာမျက်နှာများ ကူးပြောင်းမည့် စနစ်
+    function goToStep(stepNumber) {
+      if(stepNumber === 2) {
+        const gId = document.getElementById('gameId').value;
+        const zId = document.getElementById('zoneId').value;
+        if(!gId || !zId || !selectedProduct) {
+          alert("Game ID, Zone ID နှင့် စိန်ပမာဏကို မှန်ကန်စွာ ရွေးချယ်ပေးပါဦးဗျာ။");
+          return;
+        }
+      }
+      if(stepNumber === 3 && !selectedMethod) {
+        alert("ကျေးဇူးပြု၍ ငွေလွှဲမည့် နည်းလမ်းကို ရွေးချယ်ပေးပါဦးဗျာ။");
+        return;
+      }
+
+      // စာမျက်နှာအားလုံးကို အရင်ဖျောက်ပြီး သတ်မှတ်စာမျက်နှာကို ပြခြင်း
+      const screens = document.querySelectorAll('.step-screen');
+      screens.forEach(screen => screen.style.display = 'none');
+      document.getElementById('step' + stepNumber).style.display = 'block';
+    }
+
+    function previewFile() {
+      const file = document.getElementById('fileInput').files[0];
+      const preview = document.getElementById('imagePreview');
+      const text = document.getElementById('uploadText');
+      const reader = new FileReader();
+
+      reader.onloadend = function () {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+        text.innerText = "✓ ဓာတ်ပုံ ရွေးချယ်ပြီးပါပြီ";
+        base64Image = reader.result.split(',')[1];
+      }
+      if (file) reader.readAsDataURL(file);
+    }
+
+    async function placeOrder() {
+      const btn = document.getElementById('submitBtn');
+      if(!base64Image) {
+        alert("ကျေးဇူးပြု၍ ငွေလွှဲပြေစာ Screenshot အရင် တင်ပေးပါဦးဗျာ။");
+        return;
+      }
+
+      btn.innerText = "အော်ဒါ ပေးပို့နေပါသည်...";
+      btn.disabled = true;
+
+      try {
+        let imageUrl = "No Image";
+        const imgurFormData = new FormData();
+        imgurFormData.append("image", base64Image);
+
+        const imgurResponse = await fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: { Authorization: "Client-ID 544c07e999f7ec0" },
+          body: imgurFormData
+        });
+        
+        const imgurData = await imgurResponse.json();
+        if(imgurData.success) imageUrl = imgurData.data.link;
+
+        // ဒေတာများ သိမ်းဆည်းခြင်း (ငွေလွှဲနည်းလမ်းပါ ထည့်ထားသည်)
+        const orderData = {
+          gameId: document.getElementById('gameId').value,
+          zoneId: document.getElementById('zoneId').value,
+          product: selectedProduct,
+          price: selectedPrice + " K",
+          paymentMethod: selectedMethod, // Kpay သို့မဟုတ် Wavepay ရွေးထားမှု
+          screenshot: imageUrl
+        };
+
+        // ⚠️ ဤနေရာတွင် မိတ်ဆွေ၏ Google Web App URL ကို ထည့်ပါ ဘရို
+        const googleSheetUrl = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE";
+
+        await fetch(googleSheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
+
+      } catch (error) {
+        alert("Error ဖြစ်သွားပါသဖြင့် ပြန်လည်ကြိုးစားပေးပါဦး။");
+        btn.innerText = "အော်ဒါ အပြီးသတ်တင်မည်";
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
+    .header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .section-title {
+      font-size: 14px;
+      color: var(--primary);
+      margin-bottom: 10px;
+      margin-top: 15px;
+    }
+
+    /* Input Fields */
+    .input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .input-field {
+      background-color: var(--card-bg);
+      border: 1px solid #23354d;
+      border-radius: 8px;
+      padding: 12px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    /* Diamond Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .card.selected {
+      border-color: var(--primary);
+      background-color: #172c47;
+    }
+
+    .card .badge {
+      position: absolute;
+      top: -6px;
+      right: 4px;
+      background: #10b981;
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .diamond-img {
+      width: 28px;
+      height: 28px;
+      margin-bottom: 6px;
+    }
+
+    .card .title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .card .price {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    /* Payment Method Options */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 15px;
+    }
+
+    .pay-card {
+      background-color: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .pay-card.selected {
+      border-color: var(--primary);
+      background-color: #172c47;
+    }
+
+    .account-details {
+      background-color: #1e293b;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-size: 15px;
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+
+    /* File Upload Section */
+    .upload-box {
+      background-color: var(--card-bg);
+      border: 2px dashed #23354d;
+      border-radius: 10px;
+      padding: 30px 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .preview-img {
+      display: none;
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      margin-top: 15px;
+      border-radius: 6px;
+    }
+
+    /* Navigation Buttons */
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    /* Screens controlling styling */
+    .step-screen {
+      display: none;
+    }
+
+    #step1 {
       display: block;
     }
 
