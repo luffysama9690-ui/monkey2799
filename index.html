@@ -114,7 +114,7 @@
         document.getElementById('imagePreview').src = reader.result;
         document.getElementById('imagePreview').style.display = 'block';
         document.getElementById('uploadText').innerText = "✓ Image Selected";
-        base64Image = reader.result; 
+        base64Image = reader.result; // Base64 Data တစ်ခုလုံး သိမ်းဆည်းခြင်း
       }
       if (file) reader.readAsDataURL(file);
     }
@@ -124,8 +124,8 @@
       const btn = document.getElementById('submitBtn');
       btn.innerText = "Processing..."; btn.disabled = true;
 
-      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်
-      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbzwwOCRfQEl4UPZozSJXcZ-70-jUZlV7TKYCN7rPOLQzr7G11SHPeqrD72AR_ZokD0h/exec";
+      // ⚠️ သင်၏ Google Sheet Web App URL အမှန်ကို အောက်က မျက်တောင်ကွင်းထဲမှာ သေချာလဲထည့်ပါ ဘရို
+      const googleSheetUrl = "https://script.google.com/macros/s/AKfycbxRbZN0ASz4bmEFxHZaRsZyfCzfR5qZc9JMijfAHyctac4t7_xMBYHoEP944TNyCSo3/exec";
 
       try {
         const orderData = {
@@ -134,25 +134,18 @@
           product: selectedProduct,
           price: selectedPrice + " K",
           paymentMethod: selectedMethod,
-          screenshot: base64Image
+          screenshot: base64Image // ပုံကို ဒေတာစာသားအဖြစ် တိုက်ရိုက်တွဲပို့ခြင်း
         };
 
-        // URL-encoded text အဖြစ် ပြောင်းလဲပေးပို့ခြင်း (CORS block မဖြစ်စေရန်)
-        let response = await fetch(googleSheetUrl, {
+        await fetch(googleSheetUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderData)
         });
 
-        let result = await response.json();
-
-        if (result.status === "success") {
-          document.getElementById('step3').style.display = 'none';
-          document.getElementById('resultScreen').style.display = 'block';
-        } else {
-          alert("Server Error: " + result.message);
-          btn.innerText = "Submit Order"; btn.disabled = false;
-        }
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('resultScreen').style.display = 'block';
 
       } catch (error) {
         alert("Something went wrong, try again!");
